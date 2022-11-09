@@ -1,0 +1,30 @@
+name: Pages
+
+on:
+  # Runs on pushes targeting main branch
+  push:
+    branches:
+      - main
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow one concurent deployment
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/configure-pages@v2
+      - uses: actions/upload-pages-artifact@v1
+        with:
+          path: '.'
+      - uses: actions/deploy-pages@v1
+        id: deployment
